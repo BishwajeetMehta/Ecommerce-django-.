@@ -1,0 +1,47 @@
+{% extends 'master.html' %}
+
+{% block title %} 
+    Orderlist
+{% endblock title %}
+
+{% block content %}
+</br></br></br></br></br></br>
+
+<div class="container" style="background-color:#f5fffa">
+    {% if not orders %}
+    <header>
+        <h1 style="text-align: center;">You don't have Ordered yet !</h1>
+    </header>
+    {% else %}
+   
+    <header>
+        <h1 style="text-align: center;">Order List</h1>
+    </header>
+    <div >        
+        <table>
+            <tr>
+            <th class="sn"> S.N </th>
+            <th class="c1"> Product Name </th>
+            <th class="c2"> Quantity</th>
+            <th class="c3"> Status </th>
+            <th class="c4"> Amount  </th>
+            <th class="c4"> Action </th>
+            </tr>
+            {% for order in orders  %}
+            <tr>
+            <td class="sn">{{forloop.counter}}.</td>
+            <td class="c1">{{order.product}}</td>
+            <td class="c2">{{order.quantity}}</td>
+            <td class="c3">{{order.status}}</td>
+            <td class="c4">{{order.total_amount}}</td>
+            <td class="c4"><button> Cancel </button></td>
+            </tr>
+            {% endfor %}
+
+        </table> 
+    </div>  
+    {% endif %}
+</div>
+
+{% endblock content %}
+

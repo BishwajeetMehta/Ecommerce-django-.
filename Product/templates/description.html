@@ -1,0 +1,90 @@
+
+
+{% extends 'master.html' %}
+{% block content %}
+{% load static %}
+</br>
+</br>
+</br>
+<section id="billboard" class="position-relative overflow-hidden bg-light-blue">
+    <div class="swiper main-swiper">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">
+          <div class="container">
+            <div class="row d-flex ">
+              <div class="col-md-6">
+
+                <div class="banner-content">
+
+                    </br></br>
+                    <div class="product-card position-relative">
+                        <div class="image-holder">
+                          <img src="{{product.image.url}}" alt="product-item" class="img-fluid">
+                        </div>
+                        </br>
+                        <div class="cart-concern position-absolute">
+                          <div class="cart-button d-flex">
+                            <a href="{% url 'Order' product.id %}" class="demo">Buy Now</a> &nbsp;&nbsp;
+                            <a href="{% url 'Cartform' product.id %}"  class="btn-cart">Add to cart</a>
+                            {% comment %} <button class="btn-cart">Add to Cart<svg class="cart-outline"><use xlink:href="#cart-outline"></use></svg></button> {% endcomment %}
+                          </div>
+                        </div>
+                         </br>
+                        <div class="card-detail d-flex justify-content-between align-items-baseline pt-3">
+                          <h3 class="card-title text-uppercase">
+                
+                          </h3>
+                          
+                        </div>
+
+                        <section id="subscribe" class="container-grid padding-large position-relative overflow-hidden">
+                          <div class="container">
+                            <div class="row">
+                              <div class="subscribe-content bg-dark d-flex flex-wrap justify-content-center align-items-center padding-medium" >
+                                <div class="col-md-6 col-sm-12">
+                                  <div class="display-header pe-3">
+                                    <h2 class="display-7 text-uppercase text-light">comment  </h2>
+                                  </div>
+                                </div>
+                               
+                                  <form class="subscription-form validate" method="POST" action="{% url 'comment' product.id %}">
+                                    {% csrf_token %}
+                                    <div class="input-group flex-wrap">
+                                      <input class="form-control " type="text" name="comment" placeholder="Feel Free to Comment  " required>
+                                      <button class="btn btn-medium btn-primary text-uppercase btn-rounded-none" type="submit" name="subscribe">Comment</button>
+                                    
+                                  </form>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </section>
+                          </br>
+                      </div>
+                </div>
+              </div>
+              <div class="col">
+                <div >
+                </br></br>
+                    <div class="product-card position-relative">
+                       <h2 class="card-title text-uppercase">{{product.name}}</h2>
+                       &nbsp;<h3 style="color:#49c64d">Special Price, Just At<h2>Rs.<b>{{product.price}}</b></h2></h3>
+                       <h5><b style="color:#0c0c0c" ><u>Category :</u></b> {{product.Category}} </h5>
+                       <h5><b style="color:#0c0c0c" ><u>Brand :</u></b> {{product.brand}} </h5>  
+                      <h3 style="color:#ff0000">Only <b style="color:#ff0000" > {{product.stock}} </b> left !</h3></br>
+                       <h5><b style="color:#0c0c0c" ><u> Description :</u></b></br> {{product.description}}</h5>
+
+                        </br>
+                     
+                        </br>
+                      </div>
+              </div>
+            </div>
+          </div>
+        </div>
+       
+      </div>
+    </div>
+   
+  </section>
+{% endblock content %}

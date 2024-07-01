@@ -1,0 +1,110 @@
+
+
+{% extends 'master.html' %}
+{% block content %}
+
+{% load static %}
+</br>
+</br>
+</br>
+</br>
+
+<section id="billboard" class="position-relative overflow-hidden bg-light-blue">
+    <div class="swiper main-swiper">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">
+          <div class="container">
+            <div class="row d-flex ">
+              <div class="col-md-6">
+
+                <div class="banner-content">
+
+                    </br></br>
+                    <div class="product-card position-relative">
+                        <div class="image-holder">
+                          <img src="{{product.image.url}}" alt="product-item" class="img-fluid">
+                        </div>
+                        </br>
+                        <div class="cart-concern position-absolute">
+							<div class="card-body text-uppercase">
+								<div class="card-meta text-muted">
+								  <h3 class="card-title">
+									<a href="{% url 'decsription' product.id %}">{{product.name|truncatechars:40}}<a href="{% url 'decsription' product.id %}" style="color:#6082b6 ">See more</a></a>
+								  </h3>
+								  <span class="meta-date"><h5>Just At </h5></span>
+								</div>
+								<span class="item-price" style="color:#324ab2"><h3>Rs. {{product.price}}</h3></span> 
+								<h3 style="color:#ff0000">Only <b style="color:#ff0000" > {{product.stock}} </b> left !</h3></br>
+								<div class="cart-button d-flex">
+								</div>             
+							</div>
+                        </div>
+
+                        </br>
+                        <div class="card-detail d-flex justify-content-between align-items-baseline pt-3">
+                          <h3 class="card-title text-uppercase">
+                
+                          </h3>
+                          
+                        </div>
+                        </br>
+                    </div>
+				</br></br></br></br></br></br>
+                </div>
+              </div>
+              <div class="col" >
+                <div >
+                </br></br>
+                    <div class="product-card position-relative">
+                       <h3 align = "center" style="color: orangered;"> <b> Order form </b> </h3>     </br>               
+                   		<div class="container" style="background-color:white">
+							<form method="post" action="{% url 'placeorder' product.id %}">
+								{% csrf_token %}
+							  
+								</br>
+					  
+							  <!--Delivery Address-->
+								  <div class="box">
+								<label for="secondName" class="fl fontLabel"> Delivery Address</label>
+									  <div class="fr">
+											  <input type="text"  placeholder="Delivery Address" class="textBox" autofocus="on" name="delivery_address" required>
+									  </div>
+									  <div class="clr"></div>
+								  </div>
+								  <!--Delivery Address-->
+					  
+								</br>
+								  <!---Quantity.------>
+								  <div class="box">
+								<label for="phone" class="fl fontLabel"> Quantity: </label>
+									  <div class="fr">
+											  <input type="number"  placeholder="Quantity" class="textBox" min="1" max="{{product.stock}}"  name="quantity"required>
+									  </div>
+									  <div class="clr"></div>
+								  </div>
+								   <!---Quantity.------>
+								</br>
+								</br>
+								<div class="box" >
+										  <button type="Submit" name="Submit" class="demo" > Place Order</button> 
+								  </div>
+								  
+								</br></br></br>
+								
+							</form>
+						</div>
+                    </div>
+              </div>
+            </div>
+          </div>
+        </div>
+       
+      </div>
+    </div>
+   
+  </section>
+{% endblock content %}
+
+
+
+
