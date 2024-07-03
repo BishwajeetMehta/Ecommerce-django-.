@@ -179,11 +179,11 @@
                           <li>
                             <a href="{% url "profile" %}" class="dropdown-item">Profile</a>
                           </li>
-                          {% if user.is_authenticated %}
+                          {% comment %} {% if user.is_authenticated %} {% endcomment %}
                           <li>
                             <a href="{% url "order_list" user.id %}" class="dropdown-item">Orders</a>
                           </li>
-                          {% endif %}
+                          {% comment %} {% endif %} {% endcomment %}
                           {% if user.is_authenticated %}
 
                           <form  method="POST" action="{% url 'logout' %}">
@@ -198,7 +198,7 @@
 
                       
                       <li class="nav-item">
-                        <a class="nav-link me-4" href="#yearly-sale">
+                        <a class="nav-link me-4" href="{% url 'my_cart' %}">
                           <svg class="cart">
                             <use xlink:href="#cart"></use>
                           </svg>

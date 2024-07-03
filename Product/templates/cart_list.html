@@ -1,0 +1,46 @@
+
+{% extends 'master.html' %}
+
+{% block title %} 
+    Cart List
+{% endblock title %}
+
+{% block content %}
+</br></br></br></br></br></br>
+
+<div class="container" style="background-color:#f5fffa">
+    {% if not cartlist %}
+    <header>
+        <h1 style="text-align: center;">You don't have any Cart item yet !</h1>
+    </header>
+    {% else %}
+   
+    <header>
+        <h1 style="text-align: center;">Cart List</h1>
+    </header>
+    <div >        
+        <table>
+            <tr>
+            <th class="sn"> Cart No. </th>
+            <th class="c1"> Product Name </th>
+            <th class="c2"> Quantity</th>
+            <th class="c3"> Price </th>
+            <th class="c4"> Action </th>
+            </tr>
+            {% for data in cartlist %}
+            <tr>
+            <td class="sn">{{data.id}}.</td>
+            <td class="c1">{{data.product}}</td>
+            <td class="c2">{{data.quantity}}</td>
+            <td class="c3"><b>{% widthratio data.product.price 1 data.quantity %} </b></td>
+            <td class="c4"> <a type="button" href="{% url 'Delete_cart' data.id %}" class="cancel"> Remove  </a></td>
+            </tr>
+            
+            {% endfor %}
+        </table> 
+    </div>  
+    {% endif %}
+</div>
+
+{% endblock content %}
+

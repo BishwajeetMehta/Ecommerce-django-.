@@ -17,7 +17,10 @@ urlpatterns = [
     path("createcartidform",views.createcartidForm,name="createCartIdForm"), # view to create cart space for user 
     path('createcartid',views.createCartId,name="createcartid"),  #create cart id 
     path("addtocart/<int:id>",views.addToCart,name="addToCart"),  # save to cart
+    path('mycarts',views.Cart_list,name='my_cart'), # carts of a particular user
+    path('deletecart/<int:id>',views.Delete_cart,name="Delete_cart"), # delete cart item
     path('profile',views.profile,name="profile"), # user profile
     path('search',views.search,name="search"),# seaarch 
+   
 
 ]

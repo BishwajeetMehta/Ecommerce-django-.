@@ -140,10 +140,23 @@ def addToCart (request,id):
             cart_item_table.product = product_detail
             cart_item_table.quantity = data.get("quantity")
             cart_item_table.save()
-            return HttpResponse("Sucessfuly added to cart ") # return cart list here of that user
+            return redirect("my_cart") # return cart list here of that user
         return redirect("createCartIdForm")
     return redirect("Cartform",id=product_detail.id)
-            
+
+@login_required
+def Cart_list (request):
+    if Cart_Table.objects.filter(user=request.user).exists():
+        cart_id_existance = Cart_Table.objects.get(user=request.user)
+        cart_data = Cart_item.objects.filter(cart_id=cart_id_existance)
+        return HttpResponse (render(request,"cart_list.html",{"cartlist":cart_data}))
+    return redirect("createCartIdForm")
+
+@login_required
+def Delete_cart(request,id):
+    data = Cart_item.objects.get(id=id)
+    data.delete()
+    return redirect("my_cart")
 
 def search(request):
     search = request.GET.get("search","")
