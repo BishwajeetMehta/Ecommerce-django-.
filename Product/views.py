@@ -71,7 +71,23 @@ def PlaceOrder(request,id):
         product_detail.save()
         return redirect("order_list", id=request.user.id)
     return HttpResponse("hello")
-
+#function to cancel Order
+@login_required
+def CancelOrder(request,id):
+    order = Order.objects.get(id=id)
+    #stock updated in product table
+    product = order.product
+    product.stock += order.quantity
+    product.save()
+    # Mark order as canceled in order table
+    order.status = 'Cancelled'
+    order.save()
+    return redirect("order_list", id=request.user.id)
+   
+@login_required
+def order_list (request,id):
+    orders = Order.objects.filter(user=id)
+    return HttpResponse (render(request,"order_list.html",{"orders":orders}))
 
 # Function for Commenting 
 @login_required
@@ -89,8 +105,6 @@ def comment(request,id):
 @login_required
 def profile(request):
     return HttpResponse(render(request,"profile.html"))
-
-
 
 def cartView(request,id ):
     product_detail = products.objects.get(id=id)
@@ -139,10 +153,5 @@ def search(request):
             Q(name__icontains=search)|Q(description__icontains=search)|
             Q(price__icontains =search)|Q(brand__icontains = search)|Q(Category__name__icontains = search)
              ) 
-    print(result)
     return HttpResponse(render(request,"search.html",{'products':result}))
 
-@login_required
-def order_list (request,id):
-    orders = Order.objects.filter(user=id)
-    return HttpResponse (render(request,"order_list.html",{"orders":orders}))

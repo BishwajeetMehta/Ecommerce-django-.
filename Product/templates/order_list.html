@@ -20,7 +20,7 @@
     <div >        
         <table>
             <tr>
-            <th class="sn"> S.N </th>
+            <th class="sn"> Order No. </th>
             <th class="c1"> Product Name </th>
             <th class="c2"> Quantity</th>
             <th class="c3"> Status </th>
@@ -28,14 +28,22 @@
             <th class="c4"> Action </th>
             </tr>
             {% for order in orders  %}
+                {% if not order.status == 'Delivered' %}
             <tr>
-            <td class="sn">{{forloop.counter}}.</td>
+            <td class="sn">{{order.id}}.</td>
             <td class="c1">{{order.product}}</td>
             <td class="c2">{{order.quantity}}</td>
             <td class="c3">{{order.status}}</td>
             <td class="c4">{{order.total_amount}}</td>
-            <td class="c4"><button> Cancel </button></td>
+            <td class="c4">
+                    {% if order.status == 'Cancelled' %}
+                <a type="button" class='demo' href="{% url 'Order' order.product.id%}" > Buy Again </a>
+                    {% else %}
+                <a type="button" href="{% url 'cancle_order' order.id %}" class="cancel"> Cancel </a>
+                    {% endif %}
+            </td>
             </tr>
+                {% endif %}
             {% endfor %}
 
         </table> 
