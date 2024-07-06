@@ -18,9 +18,12 @@ from django.contrib import admin
 from django.urls import path,include
 from . import settings
 from django.conf.urls.static import static
+from Product.views import Home
+# from django.views import Views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path("",Home,name="index"),
     path("home/",include('Product.urls')),
     path("accounts/",include("django.contrib.auth.urls")),
     path("users/",include("Custom_Auth.urls")),

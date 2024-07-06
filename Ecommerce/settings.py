@@ -18,7 +18,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # TEMPLATES_DIR=os.path.join(BASE_DIR, 'templates')
 # STATIC_DIR=os.path.join(BASE_DIR, 'static')
 
+from django.contrib.messages import constants as messages
 
+MESSAGE_TAGS = {
+    messages.ERROR:'danger'      # To flash message
+}
 
 
 

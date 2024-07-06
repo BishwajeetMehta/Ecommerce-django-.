@@ -5,7 +5,7 @@ from django.conf import settings
 
 
 urlpatterns = [
-    path("",views.Home,name="index"),
+   
     path("description/<int:id>",views.description,name="decsription"),
     path('category/<int:id>',views.Category_page,name="category"),
     path ("prodOderView/<int:id>",views.OrderView,name="Order"), # url for page that requires order details 

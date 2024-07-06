@@ -11,10 +11,14 @@ Profile
         <h1 class = "text-center " style="color: aliceblue; text-transform: uppercase;background-color:black"> <B> Profile</B> </h1>
           <div class="row gutters-sm">
             <div class="col-md-4 mb-3" >
-              <div class="card" style="background-color:#3d0c02 ">
+              <div class="card" style="background-color:#dcdcdc ">
                 <div class="card-body">
                   <div class="d-flex flex-column align-items-center text-center">
-                    <img src="{{user.image.url}}" alt="Admin" class="rounded-circle" width="200">
+                    {% if user.image == '' %}
+                    <img src="" alt="Sorry" class="rounded-circle" width="200" height="80">
+                    {% else %}
+                    <img src="{{user.image.url}}" alt="" class="rounded-circle" width="200" >
+                    {% endif %}
                     <div class="mt-3">
                       <h4 class="text-secondary mb-1"><b> {{user.username}} </b></h4>
                       <p class="text-secondary mb-1"><b><i class="fa-solid fa-calendar-days"></i> &nbsp;{{user.DoB}}</b></p>

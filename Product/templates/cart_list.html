@@ -18,7 +18,19 @@
     <header>
         <h1 style="text-align: center;">Cart List</h1>
     </header>
-    <div >        
+    <div >     
+        <div>
+            {% if messages %}
+                <div class="mb-4">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    
+                    </div>
+                {% endfor %}
+                </div>
+            {% endif %}
+        </div>   
         <table>
             <tr>
             <th class="sn"> Cart No. </th>

@@ -24,6 +24,11 @@ CSS STRUCTURE:
 /** 1. VARIABLES
 --------------------------------------------------------------*/
 
+/* flash message style */
+.alert.hide {
+    opacity: 0;
+    transition: opacity 0.5s ease-out; /* Adjust the duration as needed */
+}
 
 
 .login {

@@ -385,26 +385,38 @@
               </div>
               <div class="row clearfix">
                 <div class="">
+                  {% if messages %}
+                <div class="mb-4">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>
+                {% endfor %}
+                </div>
+                  {%endif%}
                   <form method = "POST"  action="{% url 'signup' %}"> 
                     {% csrf_token %}
                     <div class="input_field"> <span><i aria-hidden="true" class="fa fa-envelope"></i></span>
-                      <input type="text" name="username" placeholder="UserName" required />
+                      <input type="text" name="username" placeholder="UserName"  />
                     </div>
                     <div class="input_field"> <span><i aria-hidden="true" class="fa fa-lock"></i></span>
                       <input type="password" name="password" placeholder="Password"  />
                     </div>
                     <div class="input_field"> <span><i aria-hidden="true" class="fa fa-envelope"></i></span>
-                        <input type="text" name="firstname" placeholder="firstname" required />
+                        <input type="text" name="firstname" placeholder="firstname"  />
                       </div>
                       <div class="input_field"> <span><i aria-hidden="true" class="fa fa-envelope"></i></span>
-                        <input type="text" name="lastname" placeholder="lastname" required />
+                        <input type="text" name="lastname" placeholder="lastname"  />
                       </div>
                   
                       <div class="input_field"> <span><i aria-hidden="true" class="fa fa-envelope"></i></span>
-                        <input type="email" name="email" placeholder="Email" required />
+                        <input type="email" name="email" placeholder="Email"  />
                       </div>
                       <div class="input_field"> <span><i aria-hidden="true" class="fa fa-envelope"></i></span>
-                        <input type="text" name="phone" placeholder="Phone Number" required maxlength="15" />
+                        <input type="text" name="phone" placeholder="Phone Number"  maxlength="15" />
                       </div>
                       <div class="input_field"> <span><i aria-hidden="true" class="fa fa-envelope"></i></span>
                       <input type="date" name="DoB" placeholder="Date of Birth (optional)"  />

@@ -58,13 +58,22 @@
                     <div class="product-card position-relative">
                        <h3 align = "center" style="color: orangered;"> <b> Add to cart </b> </h3>     </br>               
                    		<div class="container" style="background-color:white">
+                        <div>
+                        {% if messages %}
+                        <div class="mb-4">
+                               {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            </div>
+                               {% endfor %}
+                           
+                        </div>
+                        {% endif %}
+                        <diV>
 							<form method="post" action="{% url 'addToCart' product.id %}">
 								{% csrf_token %}
 							  
 								</br>
-					  
-							
-					  
 								</br>
 								  <!---Quantity.------>
 								  <div class="box">

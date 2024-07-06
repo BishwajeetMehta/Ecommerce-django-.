@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
+from django.contrib import messages
 
 # from django.core.serializers import serialize
 
@@ -69,8 +70,9 @@ def PlaceOrder(request,id):
         ordertable.save()
         product_detail.stock -= ordertable.quantity
         product_detail.save()
-        return redirect("order_list", id=request.user.id)
-    return HttpResponse("hello")
+        messages.success(request, "Ordered sucessfully")
+        return redirect("Order", id=id)
+    return redirect("index")
 #function to cancel Order
 @login_required
 def CancelOrder(request,id):
@@ -82,6 +84,7 @@ def CancelOrder(request,id):
     # Mark order as canceled in order table
     order.status = 'Cancelled'
     order.save()
+    messages.success(request, "Your Order canceled sucessfully")
     return redirect("order_list", id=request.user.id)
    
 @login_required
@@ -100,6 +103,7 @@ def comment(request,id):
         comment_table.product = product_detail
         comment_table.comment =data.get("comment")
         comment_table.save()
+        messages.success(request, "Commented sucessfully !")
         return redirect("decsription", id=product_detail.id)
 
 @login_required
@@ -119,11 +123,10 @@ def createCartId(request):
         data = request.POST
         carttable = Cart_Table()
         if Cart_Table.objects.filter(user=request.user).exists():
-            raise ValidationError("Cart space already exists for you")
+            messages.success(request, "cart id Already Exits !")
         carttable.user=request.user
         carttable.save() 
-        #flash msg and redirect
-        return HttpResponse("cart id created sucessfully")
+        return redirect('my_cart') # return cart list here of that user
         
     return redirect("index")
 
@@ -140,7 +143,8 @@ def addToCart (request,id):
             cart_item_table.product = product_detail
             cart_item_table.quantity = data.get("quantity")
             cart_item_table.save()
-            return redirect("my_cart") # return cart list here of that user
+            messages.success(request, "Added to cart sucessfully !")
+            return redirect("Cartform",id=product_detail.id ) # return cart list here of that user
         return redirect("createCartIdForm")
     return redirect("Cartform",id=product_detail.id)
 
@@ -156,6 +160,7 @@ def Cart_list (request):
 def Delete_cart(request,id):
     data = Cart_item.objects.get(id=id)
     data.delete()
+    messages.success(request, "Item Deleted from sucessfully !")
     return redirect("my_cart")
 
 def search(request):

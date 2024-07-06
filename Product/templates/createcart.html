@@ -17,6 +17,7 @@
                         <a class="btn btn-medium btn-danger text-uppercase btn-rounded-none" href="{% url 'index' %}" >Not Needed </a>
                     </div>
                   </div>
+                  
                  
                     <form class="subscription-form validate" method="POST" action="{% url 'createcartid' %}">
                       {% csrf_token %}

@@ -399,6 +399,33 @@
     <script type="text/javascript" src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/plugins.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/script.js' %}"></script>
+  
+    <!-- start of Flash message timing script-->
+    <script>
+      // Wait for the DOM to be fully loaded
+      document.addEventListener('DOMContentLoaded', function() {
+          // Find all alert elements
+          var alerts = document.querySelectorAll('.alert');
+          
+          // Set the delay time in milliseconds 
+          var delay = 3500; //3.5 second timing
+  
+          // Hide each alert after the delay
+          alerts.forEach(function(alert) {
+              setTimeout(function() {
+                  // Fade out the alert (you can use CSS for smoother fading)
+                  alert.classList.remove('show');
+                  alert.classList.add('hide');
+  
+                  // Remove the alert from the DOM after the fade out (optional)
+                  setTimeout(function() {
+                      alert.parentNode.removeChild(alert);
+                  }, 500); // Adjust this delay to match your fade-out transition duration
+              }, delay);
+          });
+      });
+  </script>
+ <!-- end of of Flash message timing script-->
   </body>
 
 </html>
