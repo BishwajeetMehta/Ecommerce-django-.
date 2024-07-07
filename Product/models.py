@@ -26,10 +26,13 @@ class products(models.Model):
     Category =models.ForeignKey(Categories,on_delete=models. CASCADE)
     description = models.TextField()
     price = models.IntegerField()
+    discount = models.IntegerField(null=True)
     brand = models.CharField(max_length=200,default="Unknown")
     image = models.ImageField(upload_to="images/product")
     stock = models.IntegerField(default="1")
     status = models.IntegerField(default="1")
+
+
 
     def __str__(self):
         return self.name
@@ -87,16 +90,13 @@ class Cart_item (models.Model):
 
 
 
-
-
-
-
 class System_setting(models.Model):
     name = models.CharField(max_length=200)
     email = models.EmailField()
     phone =models.CharField(max_length=20)
     location = models.CharField(max_length=150)
     logo = models.ImageField(upload_to="images/system")
+    slogan = models.CharField(max_length=250, default='Shop. Save. Smile.')
 
 
     def save(self, *args, **kwargs):
@@ -106,5 +106,12 @@ class System_setting(models.Model):
 
     def _str_(self):
         return self.name
+    
 
+class Subscriber(models.Model):
+    name = models.ForeignKey(User, on_delete=models.CASCADE)
+    email = models.EmailField()
+
+    def _str_(self):
+        return self.email
 

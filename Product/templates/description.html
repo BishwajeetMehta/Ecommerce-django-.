@@ -78,7 +78,13 @@
                 </br></br>
                     <div class="product-card position-relative">
                        <h2 class="card-title text-uppercase">{{product.name}}</h2>
-                       &nbsp;<h3 style="color:#49c64d">Special Price, Just At<h2>Rs.<b>{{product.price}}</b></h2></h3>
+                       
+                       &nbsp;<h3 style="color:#49c64d">Special Price, Just At<h2> 
+                        <span class="meta-date"><h5><b style="font-style: italic;"><s style="color: red; size: 1ch;" > Rs.{{ product.dummy_price|floatformat:2 }} </s>
+                          </b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b style="font-style:oblique">{{product.discount}}%</b>  Off</h5> 
+                       </span>
+
+                        Rs.<b>{{product.price}}</b></h2></h3>
                        <h5><b style="color:#0c0c0c" ><u>Category :</u></b> {{product.Category}} </h5>
                        <h5><b style="color:#0c0c0c" ><u>Brand :</u></b> {{product.brand}} </h5>  
                       <h3 style="color:#ff0000">Only <b style="color:#ff0000" > {{product.stock}} </b> left !</h3></br>

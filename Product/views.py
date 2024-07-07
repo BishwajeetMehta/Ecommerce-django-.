@@ -1,11 +1,10 @@
 from django.shortcuts import render,get_object_or_404,redirect
-from . models import Categories,System_setting,products,Order,Comment,Cart_Table,Cart_item
+from . models import Categories,products,Order,Comment,Cart_Table,Cart_item,Subscriber,System_setting
 from django.http import HttpResponse
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
-from django.core.exceptions import ValidationError
 from django.contrib import messages
-
+from django.core.mail import send_mail
 # from django.core.serializers import serialize
 
 # Create your views
@@ -23,22 +22,25 @@ def Home(request):
         # here the product existance is checked
         if product.exists():
             product_status = product.filter(status= True)
-            product_stock= product_status.filter(stock__gt=0) #slice here to limit content
-            category_products[category] = product_stock[:3]
+            product_stock= product_status.filter(stock__gt=0) 
+            #dummy price creted
+            for prod in product_stock:
+                if prod.discount > 0:
+                    prod.dummy_price = prod.price * (1 + prod.discount / 100)
+                else:
+                    prod.dummy_price = prod.price
+
+            category_products[category] = product_stock[:3]            
         else:
                 category.status = False
                 category.save()
-        # system settings stored in session 
-    system_settings =list (System_setting.objects.all().values())
-    category_session =list (Categories.objects.filter(status=True).values())
-    request.session['system_data'] =system_settings
-    request.session['categories']=category_session
-    
+        
     return HttpResponse(render(request,"home.html",{'categories_products':category_products}))
 
 #function for each product description
 def description(request,id):
     product_detail = products.objects.get(id=id)
+    product_detail.dummy_price = product_detail.price * (1 + product_detail.discount / 100)
     return HttpResponse(render(request,"description.html",{'product':product_detail}))
 
 #function for each Category and its related Products
@@ -47,6 +49,13 @@ def Category_page(request,id):
     product_list = products.objects.filter(Category = category_list)
     status = product_list.filter(status= True)
     Availabitlity = status.filter(stock__gt=0)
+    #dummy price calculated
+    for prod in Availabitlity:
+                if prod.discount > 0:
+                    prod.dummy_price = prod.price * (1 + prod.discount / 100)
+                else:
+                    prod.dummy_price = prod.price
+
     return HttpResponse(render(request,"category_page.html",{"product_list":Availabitlity,'category_list':category_list}))
 
 
@@ -58,6 +67,7 @@ def OrderView(request,id ):
 # function for Ordering 
 @login_required
 def PlaceOrder(request,id):
+    system_data = System_setting()
     product_detail = products.objects.get(id=id)
     if request.method == "POST" :
         
@@ -70,12 +80,21 @@ def PlaceOrder(request,id):
         ordertable.save()
         product_detail.stock -= ordertable.quantity
         product_detail.save()
+        #email feature
+        subject = f' Order Confirmation '
+        message = f"Dear { ordertable.user}, Your Order is Confirmed Sucessfuly !\nProduct name: {ordertable.product}\nQuantity:{ordertable.quantity}\nPrice:{ordertable.total_amount}\n \n \n Thank you for choosing Us as your Shooping Partner !\n{system_data.slogan} "
+        from_email = '' #owner Email
+        recipient_list = [request.user.email]
+        send_mail(subject, message, from_email, recipient_list)
         messages.success(request, "Ordered sucessfully")
         return redirect("Order", id=id)
     return redirect("index")
+
+
 #function to cancel Order
 @login_required
 def CancelOrder(request,id):
+    system_data = System_setting()
     order = Order.objects.get(id=id)
     #stock updated in product table
     product = order.product
@@ -84,6 +103,13 @@ def CancelOrder(request,id):
     # Mark order as canceled in order table
     order.status = 'Cancelled'
     order.save()
+    #emailing 
+    subject = f' Order cancellation '
+    message = f"Dear { request.user}, Your Order is Cancelled Sucessfuly !\n \n \n Thank you for choosing Us as your Shooping Partner !\n{system_data.slogan} "
+    from_email = '' #OwnerEmail
+    recipient_list = [request.user.email]
+    send_mail(subject, message, from_email, recipient_list)
+
     messages.success(request, "Your Order canceled sucessfully")
     return redirect("order_list", id=request.user.id)
    
@@ -149,7 +175,7 @@ def addToCart (request,id):
     return redirect("Cartform",id=product_detail.id)
 
 @login_required
-def Cart_list (request):
+def cart_list (request):
     if Cart_Table.objects.filter(user=request.user).exists():
         cart_id_existance = Cart_Table.objects.get(user=request.user)
         cart_data = Cart_item.objects.filter(cart_id=cart_id_existance)
@@ -157,11 +183,30 @@ def Cart_list (request):
     return redirect("createCartIdForm")
 
 @login_required
-def Delete_cart(request,id):
+def delete_cart(request,id):
     data = Cart_item.objects.get(id=id)
     data.delete()
     messages.success(request, "Item Deleted from sucessfully !")
     return redirect("my_cart")
+
+@login_required
+def subscribers(request):
+    if request.method == "POST" :
+        data = request.POST
+        subscriber_table = Subscriber()
+        subscriber_table.name = request.user
+        subscriber_table.email = data.get("email")
+        subscriber_table.save()
+        #emailing feature
+        subject = f'Request for Subscription'
+        message = f"Name: {subscriber_table.name}\nEmail: {subscriber_table.email}"
+        from_email = '' #owneremail
+        recipient_list = ['']  #owner email
+        send_mail(subject, message, from_email, recipient_list)
+        messages.success(request, "Subscribed sucessfully !")
+        return redirect('index')
+
+
 
 def search(request):
     search = request.GET.get("search","")

@@ -150,7 +150,18 @@ MEDIA_ROOT=BASE_DIR / 'media'
 AUTH_USER_MODEL='Custom_Auth.User'
  
  #login setups 
-LOGIN_REDIRECT_URL ='/home'
+LOGIN_REDIRECT_URL ='index'
 LOGOUT_REDIRECT_URL ='/accounts/login/' #redirect to login page
 
 LOGIN_URL = '/accounts/login/' 
+
+
+# email Setups
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+EMAIL_PORT = 587
+EMAIL_HOST_USER = "" #your email
+EMAIL_HOST_PASSWORD = "" # your credential

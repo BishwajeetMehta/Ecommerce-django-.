@@ -3,6 +3,7 @@
 {% block tiltl %}category{% endblock tiltl %}
 
 {% block content %}
+</br></br>
 <section id="latest-blog" class="padding-large">
     <div class="container">
      
@@ -28,6 +29,11 @@
                   <a href="{% url 'decsription' product.id %}">{{product.name|truncatechars:40}}<a href="{% url 'decsription' product.id %}" style="color:#6082b6 " >See more</a></a>
                 </h3>
                 <span class="meta-date"><h5>Just At </h5></span>
+                <span class="meta-date"><h5><b style="font-style: italic;"><s style="color: red; size: 1ch;" > Rs.{{ product.dummy_price|floatformat:2 }} </s></b>
+                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b style="font-style:oblique">{{product.discount}}%</b>  Off</h5> 
+            
+                </span>
+  
               </div>
               
               <span class="item-price " style="color:#324ab2  "><h3>Rs.{{product.price}} </h3></span> 
