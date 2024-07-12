@@ -5,6 +5,10 @@ from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.mail import send_mail
+import os
+from dotenv import load_dotenv
+# Load environment variables from .env file
+load_dotenv()
 # from django.core.serializers import serialize
 
 # Create your views
@@ -83,7 +87,7 @@ def PlaceOrder(request,id):
         #email feature
         subject = f' Order Confirmation '
         message = f"Dear { ordertable.user}, Your Order is Confirmed Sucessfuly !\nProduct name: {ordertable.product}\nQuantity:{ordertable.quantity}\nPrice:{ordertable.total_amount}\n \n \n Thank you for choosing Us as your Shooping Partner !\n{system_data.slogan} "
-        from_email = '' #owner Email
+        from_email = os.getenv("EMAIL_HOST")
         recipient_list = [request.user.email]
         send_mail(subject, message, from_email, recipient_list)
         messages.success(request, "Ordered sucessfully")
@@ -106,7 +110,7 @@ def CancelOrder(request,id):
     #emailing 
     subject = f' Order cancellation '
     message = f"Dear { request.user}, Your Order is Cancelled Sucessfuly !\n \n \n Thank you for choosing Us as your Shooping Partner !\n{system_data.slogan} "
-    from_email = '' #OwnerEmail
+    from_email = os.getenv("EMAIL_HOST")
     recipient_list = [request.user.email]
     send_mail(subject, message, from_email, recipient_list)
 
@@ -200,8 +204,8 @@ def subscribers(request):
         #emailing feature
         subject = f'Request for Subscription'
         message = f"Name: {subscriber_table.name}\nEmail: {subscriber_table.email}"
-        from_email = '' #owneremail
-        recipient_list = ['']  #owner email
+        from_email = os.getenv("EMAIL_HOST")
+        recipient_list = [os.getenv("EMAIL_HOST")]  #owner email
         send_mail(subject, message, from_email, recipient_list)
         messages.success(request, "Subscribed sucessfully !")
         return redirect('index')

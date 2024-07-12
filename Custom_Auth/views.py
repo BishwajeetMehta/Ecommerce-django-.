@@ -4,6 +4,7 @@ from Custom_Auth.models import User
 from Product.models import System_setting
 from django.contrib import messages
 from django.core.mail import send_mail
+import os
 # Create your views here.
 
 def signupform(request):
@@ -73,7 +74,7 @@ def signup(request):
         system_data= System_setting()
         subject = f' Registration Sucessful ! '
         message = f"Dear { usertable.username}, Your Registration is Sucessful !\n \n \n Thank you for choosing Us as your Shooping Partner !\n{system_data.slogan} "
-        from_email = '' # Owneremail
+        from_email = os.getenv("EMAIL_HOST")
         recipient_list = [usertable.email]
         send_mail(subject, message, from_email, recipient_list)
         
