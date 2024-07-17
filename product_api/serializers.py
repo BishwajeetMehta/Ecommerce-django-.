@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from Product.models import Categories,products,System_setting,Order,Cart_item
+from Custom_Auth.models import User
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -28,3 +29,10 @@ class CartSerializer(serializers.ModelSerializer):
     class Meta:
         model = Cart_item
         fields = ['id','cart_id', 'product', 'quantity']
+
+class UserSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = ['id','username','first_name','last_name','email','phone','DoB','image']
+        read_only_fields = ['username','id']

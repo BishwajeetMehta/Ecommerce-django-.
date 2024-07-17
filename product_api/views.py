@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from rest_framework.viewsets import ReadOnlyModelViewSet,ModelViewSet
 from Product.models import Categories,products
-from .serializers import CategorySerializer,ProductSerializer,SystemsettingSerializer,OrderSerializer,CartSerializer
+from .serializers import CategorySerializer,ProductSerializer,SystemsettingSerializer,OrderSerializer,CartSerializer,UserSerializer
 from .filters import ProductFilter
 import django_filters.rest_framework
 from rest_framework.response import Response
@@ -126,7 +126,27 @@ class CartViewset(ModelViewSet):
                
           return Response({'message': 'something went wrong'})
 
+class UserViewset(ModelViewSet):
+     queryset = User.objects.all()
+     serializer_class = UserSerializer
+     permission_classes = [IsAuthenticated]
 
+     def retrieve(self, request, pk):
+          user = User.objects.get(id=pk)
+          serializer = UserSerializer(user)
+          return Response(serializer.data)
+     
+     def  update(self, request, pk):
+          user = User.objects.get(id = pk)
+          serializer = UserSerializer(user, request.data, partial= True)
+          if serializer.is_valid():
+               return Response(serializer.data,status=status.HTTP_200_OK)
+     
+          return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+          
+
+          
 
 
 

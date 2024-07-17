@@ -1,5 +1,5 @@
 from django.urls import path,include
-from .views import CategoryViewset,ProductViewset,SystemSettingViewset,OrderViewset,CartViewset
+from .views import CategoryViewset,ProductViewset,SystemSettingViewset,OrderViewset,CartViewset,UserViewset
 from rest_framework_simplejwt.views import ( TokenObtainPairView,TokenRefreshView)
 
 urlpatterns = [
@@ -13,7 +13,7 @@ urlpatterns = [
     path('order/<int:pk>/',OrderViewset.as_view({'get': 'retrieve','post':'cancelorder'})),
     path('cart/<int:pk>/',CartViewset.as_view({'get':'retrieve','delete': 'destroy'}),name='api_my_cart'),
     path('cart',CartViewset.as_view({'post':'add_to_cart'}), name= 'add_to_cart'),
-  
+    path('user/<int:pk>/',UserViewset.as_view({'get':'retrieve','put':'update'})),
     
    
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
